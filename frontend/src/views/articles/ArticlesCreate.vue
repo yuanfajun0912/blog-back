@@ -4,16 +4,23 @@
       ** @submit.native.prevent="createArticle"
            表单提交后执行createArticle
       ** el-radio-group v-model="currentCg"
-           被选中的单选按钮的值
-      ** 
-      **   
+           被选中的单选按钮的值  
     -->
     <el-form ref="article" 
            :model="article"
            label-width="80px"
            @submit.native.prevent="createArticle">
       <el-form-item label="标题">
-        <el-input v-model="article.title" placeholder="请填写标题"></el-input>
+        <el-input v-model="article.title" placeholder="请填写标题" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="描述">
+        <el-input v-model="article.discription" placeholder="请输入文章描述" type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
+      </el-form-item>
+      <el-form-item label="顶部图">
+        <el-input v-model="article.topicImage" placeholder="请填写顶部图的外部链接" clearable></el-input>
+        <el-image :src="article.topicImage" :preview-src-list="previewImage" fit="cover" :lazy="true">
+        </el-image>
+        <span> (点击图片可预览)</span>
       </el-form-item>
       <el-form-item label="标签" class="tagsContainer">
         <el-tag class="tag" v-for="(tag, index) in article.selectTags" :key="index" closable
@@ -55,12 +62,21 @@ export default {
         selectTags: [],  //选中的标签，后台就只需要每一项的userName和每一项对应的索引值，每一项的i用作统一颜色
         time: '',
         value: '', //markdown编辑器解析成html前的内容
+        discription: '',  //文章描述
+        topicImage: '',  //文章顶部图片
+        views: 100,
+        like: 100,
+        comments: [],
       },
       tags: [],  //从后端获取的标签
     }
   },
   computed: {
-    
+    previewImage() {
+      let list = []
+      list.push(this.article.topicImage)
+      return list
+    }
   },
   methods: {
     getTags() {  //拿到标签
@@ -94,7 +110,12 @@ export default {
             body: '',  
             selectTags: [], 
             time: '',
-            value: ''      
+            value: '',
+            discription: '', 
+            topicImage: '',  
+            views: 0,
+            like: 0,
+            comments: [],      
           }
         })
         })
@@ -119,7 +140,12 @@ export default {
             body: '',
             currentCg: '',   
             time: '',
-            value: ''      
+            value: '',
+            discription: '', 
+            topicImage: '',  
+            views: 0,
+            like: 0,
+            comments: [],      
           }
         })
         .catch(() => {})  //虽然不做处理，但还是要写catch，否则会报错
@@ -230,5 +256,10 @@ export default {
   .submitBtn:hover {
     color: black;
     background-color: rgb(0, 215, 253);
+  }
+  .el-image {
+    margin-top: 10px;
+    width: 250px;
+    height: 150px;
   }
 </style>

@@ -5,7 +5,21 @@
            label-width="80px"
            @submit.native.prevent="updateArticle">
       <el-form-item label="标题">
-        <el-input v-model="article.title" placeholder="请填写标题"></el-input>
+        <el-input v-model="article.title" placeholder="请填写标题" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="描述">
+        <el-input v-model="article.discription" placeholder="请输入文章描述" type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
+      </el-form-item>
+      <el-form-item label="顶部图">
+        <el-input v-model="article.topicImage" placeholder="请填写顶部图的外部链接" clearable></el-input>
+        <el-image :src="article.topicImage" :preview-src-list="previewImage" fit="cover">
+          <div slot="error" class="image-slot">
+            <!-- 在失败回调中再显示一次图片，解决图片初始化不显示的问题 -->
+            <el-image :src="article.topicImage" :lazy="true" fit="cover" :preview-src-list="previewImage">
+            </el-image>
+          </div>
+        </el-image>
+        <span> (点击图片可预览)</span>
       </el-form-item>
       <el-form-item label="标签" class="tagsContainer">
         <el-tag class="tag" v-for="(tag, index) in article.selectTags" :key="index" closable
@@ -50,10 +64,19 @@ export default {
       },
       tags: [],  //从后端获取的标签
       value: '', //markdown编辑器的value
+      discription: '',  //文章描述
+      topicImage: '',  //文章顶部图片
+      views: 100,
+      like: 100,
+      comments: [],
     }
   },
   computed: {
-    
+    previewImage() {
+      let list = []
+      list.push(this.article.topicImage)
+      return list
+    }
   },
   methods: {
     getTags() {  //拿到标签
@@ -225,5 +248,10 @@ export default {
   .submitBtn:hover {
     color: black;
     background-color: rgb(0, 215, 253);
+  }
+  .el-image {
+    margin-top: 10px;
+    width: 250px;
+    height: 150px;
   }
 </style>

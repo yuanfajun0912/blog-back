@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { Users, Articles, Tags, Categories } = require('./mongodb')
+const { Users, Articles, Tags, Categories, leaveMessages } = require('./mongodb')
 app.use(require('cors')())  //允许跨域
 app.use(express.json())  //允许处理json数据
 const jwt = require('jsonwebtoken') //token的包
@@ -28,6 +28,11 @@ app.post('/login', async (req, res) => {  //登录
 /*
   文章相关
 */
+Categories.find({ id: { $gt: 0 } }).sort({ id: -1 })  //自增长id
+.then(([first, ...others]) => {
+    if (first)
+        counter = first.id + 1;
+});
 const authentic = async (req, res, next) => {  //验证token的中间件
   try {
     const token = req.headers.authorization.split(' ').pop()
@@ -35,20 +40,21 @@ const authentic = async (req, res, next) => {  //验证token的中间件
   } catch(err) {
     req.errmessage = '请重新登陆'
   }
-  req.user = await Users.findById(id)
+  req.user = await Users.findById(id)  //拿到token对应的用户并且传下去
   next()
 }
+
 app.get('/articlesList', authentic, async (req, res) => {  //获取文章列表
-  var articles = await Articles.find()
-  articles.push('manager')
-  if(req.user.userName === '111') {
+  var articles = await Articles.find()       
+  articles.push('manager') 
+  if(req.user.userName === '111') {  //拿到的用户名是111，说明就是游客
     articles.splice(articles.length-1, 1, 'visitor')
     return res.send(articles)
   }
   res.send(articles)
 })
 app.get('/articlesList/:id', async (req, res) => {  //获取一篇文章
-  const article = await Articles.findById(req.params.id)
+  const article = await Articles.findOne({ id: req.params.id})
   res.send(article)
 })
 app.post('/articlesList', async (req, res) => {  //增加一篇文章
@@ -56,13 +62,16 @@ app.post('/articlesList', async (req, res) => {  //增加一篇文章
   res.send('成功增加一篇文章')
 })
 app.put('/articlesList/:id', async (req, res) => {  //更新一篇文章
-  const article = await Articles.findByIdAndUpdate(req.params.id, req.body)  //找到并更新数据
+  //{ new: true }使得返回的article是修改后的值
+  const article = await Articles.findOneAndUpdate({ id: req.params.id }, req.body, { new: true })
   res.send(article)
 })
-app.delete('/articlesList/:id', async (req, res) => {  //删除一篇文章
-  await Articles.findByIdAndDelete(req.params.id)
+app.delete('/articlesList/:id', async (req, res) => {  //删除一篇文章 
+  await Articles.findOneAndDelete({ id: req.params.id })
   res.send('成功删除')
 })
+
+
 /*
   标签相关
 */
@@ -72,7 +81,7 @@ app.get('/tagsList', async (req, res) => {  //获取所有标签
 })
 app.post('/tagsList', async (req, res) => {  //新增标签
   await Tags.insertMany(req.body)            //需要是个数组
-  res.send('成功添加')                        //数组里面每一项是对象
+  res.send('成功添加')                        //数组里面每一项是对象 
 })
 app.delete('/tagsList/:id', async (req, res) => {  //删除一个标签
   await Tags.findByIdAndDelete(req.params.id)
@@ -83,8 +92,27 @@ app.put('/tagsList/:id', async (req, res) => {  //修改一个标签
   res.send(tag)
 })
 /*
+  留言相关
+*/
+app.get('/leaveMessages', async (req, res) => {
+  const messages = await leaveMessages.find()
+  res.send(messages)
+})
+app.post('/leaveMessages', async (req, res) => {
+  await leaveMessages.insertMany(req.body)                                                                                                                                             
+  res.send('成功添加')
+})
+
+
+
+/*
   分类相关
 */
+Categories.find({ id: { $gt: 0 } }).sort({ id: -1 })
+.then(([first, ...others]) => {
+    if (first)
+        counter = first.id + 1;
+});
 app.get('/categoriesList', async (req, res) => {  //获取所有分类
   const categories = await Categories.find()
   res.send(categories)

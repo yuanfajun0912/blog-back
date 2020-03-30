@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table :data="articles" style="width: 100%">
-      <el-table-column prop="title" label="标题" width="320">
+      <el-table-column prop="title" label="标题" width="100">
         <template slot-scope="scope">
           <!-- 气泡弹窗，hover上去可看完整的title -->
           <el-tooltip :content="scope.row.title" placement="bottom" effect="light">
@@ -12,10 +12,21 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column prop="time" label="上一次更新时间" width="270">
+      <el-table-column prop="time" label="上一次更新时间" width="200">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.time }}</span>
+          <i class="el-icon-time" style="color: black"></i>
+          <span style="margin-left: 5px">{{ scope.row.time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="title" label="文章描述" width="180">
+        <template slot-scope="scope">
+          <!-- 气泡弹窗，hover上去可看完整的title -->
+          <el-tooltip :content="scope.row.discription" placement="bottom" effect="light">
+            <!-- 只在一行，超出部分省略 -->
+            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              {{ scope.row.discription }}
+            </p>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column prop="selectTags" label="标签" width="320">
@@ -25,18 +36,28 @@
           </el-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="title" label="浏览量/喜欢/评论数" width="180">
+        <template slot-scope="scope">
+          <i class="iconfont icon-views-sunny"></i>
+          <span class="detail">{{scope.row.views}}</span>
+          <i class="iconfont icon-like-sunny"></i>
+          <span class="detail">{{scope.row.like}}</span>
+          <i class="iconfont icon-comments-sunny"></i>
+          <span class="detail">{{scope.row.comments.length}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
-      <!-- scope.row是当前行的数据信息，_id是它在数据库中的_id -->
-      <template slot-scope="scope"> 
-        <el-button
-          size="mini" 
-          @click="edit(scope.row._id)">编辑</el-button> 
-        <el-button
-          size="mini"
-          type="danger"
-          @click="remove(scope.row._id)">删除</el-button>
-      </template>
-    </el-table-column>
+        <!-- scope.row是当前行的数据信息，id是它在数据库中的id --> 
+        <template slot-scope="scope"> 
+          <el-button
+            size="mini" 
+            @click="edit(scope.row.id)">编辑</el-button> 
+          <el-button
+            size="mini"
+            type="danger"
+            @click="remove(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -75,8 +96,7 @@ export default {
           type: 'error'
         });
       } 
-      this.$http.delete(`articlesList/${id}`).then(res => {  //模板字符串，传递变量
-        console.log(res)
+      this.$http.delete(`articlesList/${id}`).then(() => {  //模板字符串，传递变量
         this.$message({  //成功弹窗
           message: '成功删除',
           type: 'success'
@@ -107,5 +127,27 @@ export default {
     color: white;
     border: 0;
     margin: 0 10px 5px 0;
+  }
+  i.el-icon-time {
+    font-size: 15px;
+    position: unset;
+  }
+  i {
+    font-size: 21px;
+    position: relative;
+    top: 2px;
+  }
+  i:nth-of-type(1) {
+    color: rgb(46, 89, 209);
+  }
+  i:nth-of-type(2) {
+    color: red;
+  }
+  i:nth-of-type(3) {
+    color: rgb(231, 77, 49);
+  }
+  span.detail {
+    display: inline-block;
+    margin-right: 10px;
   }
 </style>
