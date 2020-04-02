@@ -10,7 +10,7 @@
       :article-title="articleTitle"
       :comments="comments"
       :path="path"
-      @refreshData="getComments">
+      @refreshData="getLeaveMessages">
     </comments-list>
   </div>
 </template>
@@ -19,29 +19,27 @@
 import CommentsList from '@/components/CommentsList'
 
 export default {
-  name: 'ArticlesComments',
+  name: 'LeaveMessages',
   components: {
     CommentsList
   },
   data() {
     return {
-      articleTitle: '',
-      comments: [], 
-      path: '' 
+      articleTitle: '留言板',
+      comments: [],  
+      path: ''
     }
   },
   methods: {
-    getComments() {  //获取评论数据
-      const id = this.$store.state.manageCommentsId
-      this.path = `articleComments/${id}`
-      this.$http.get(`articleComments/${id}`).then(res => {  
-        this.articleTitle = res.data.pop()
+    getLeaveMessages() {  //获取留言数据
+      this.$http.get('leaveMessages').then(res => {  
         this.comments = res.data
       })
+      this.path = 'leaveMessages'
     }
   },
   created() {
-    this.getComments()
+    this.getLeaveMessages()
   }
 }
 </script>

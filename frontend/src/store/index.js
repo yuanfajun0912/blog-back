@@ -6,12 +6,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     editArticleId: '',  //编辑的文章的id
+    manageCommentsId: '',  //管理评论的文章的id
     userToken: '',  //用户token
     user: ''  //用户的身份
   },
   mutations: {
     changeEAId(state, id) {
       state.editArticleId = id
+    },
+    changeMCId(state, id) {
+      state.manageCommentsId = id
     },
     getToken(state, token) {
       state.userToken = token

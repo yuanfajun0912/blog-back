@@ -20,7 +20,7 @@ mongodb、mongoose（管理工具）、robo3t（可视化）
 
 文章列表
 
-![articlesList.PNG](https://i.loli.net/2020/03/30/cgr2fJCNMQOo5we.png)
+![文章列表.PNG](https://i.loli.net/2020/04/02/fTkneBUZNHq95PS.png)
 
 新建/编辑文章
 
@@ -35,6 +35,10 @@ mongodb、mongoose（管理工具）、robo3t（可视化）
 
 ![usermanage.PNG](https://i.loli.net/2020/03/22/pt12hbVWIqKQNAJ.png)
 
+文章评论管理/留言管理
+
+![评论.PNG](https://i.loli.net/2020/04/02/QyovYJTK54GFaUV.png)
+
 ## 已完成
 
 - [x] 用户切换
@@ -44,15 +48,15 @@ mongodb、mongoose（管理工具）、robo3t（可视化）
 - [x] 编辑文章
 - [x] 删除文章
 - [x] 标签管理（新建、删除）
+- [x] 文章评论管理
+- [x] 留言管理
 
 ## 未完成
 
 主要是因为前台还没做，所以很多功能还没做
 
 - [ ] 登录日志
-- [ ] 博客留言管理
 - [ ] 博客主题管理
-- [ ] 文章评论管理
 - [ ] 实时预览
 
 ## 细节说明

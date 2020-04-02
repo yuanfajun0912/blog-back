@@ -113,8 +113,8 @@ export default {
             value: '',
             discription: '', 
             topicImage: '',  
-            views: 0,
-            like: 0,
+            views: 100,
+            like: 100,
             comments: [],      
           }
         })
@@ -143,8 +143,8 @@ export default {
             value: '',
             discription: '', 
             topicImage: '',  
-            views: 0,
-            like: 0,
+            views: 100,
+            like: 100,
             comments: [],      
           }
         })

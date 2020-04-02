@@ -19,7 +19,6 @@
           <template slot="title"><i class="el-icon-notebook-2"></i>文章管理</template>
           <el-menu-item index="/articles/list">文章列表</el-menu-item>
           <el-menu-item index="/articles/create">新建文章</el-menu-item>
-          <el-menu-item index="/articles/comments">评论管理</el-menu-item>
         </el-submenu>
         <el-submenu index="tag">
           <template slot="title"><i class="el-icon-menu"></i>标签管理</template>
@@ -28,7 +27,7 @@
         <el-submenu index="globalManage">
           <template slot="title"><i class="el-icon-setting"></i>全局管理</template>
           <el-menu-item index="/globalManage/theme">主题设置</el-menu-item>
-          <el-menu-item index="/globalManage/comment">留言管理</el-menu-item>
+          <el-menu-item index="/globalManage/leaveMessages">留言管理</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-aside>
@@ -79,8 +78,8 @@
       </el-header>
       
       <el-main>
-        <!-- 主体部分路由 -->
-        <keep-alive include="ArticlesCreate, ArticalEdit">
+        <!-- 主体部分路由,include中的组件名一定不要加空格 -->
+        <keep-alive include="ArticlesList,ArticlesCreate">
           <router-view></router-view> 
         </keep-alive> 
       </el-main>

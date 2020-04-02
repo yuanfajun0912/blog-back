@@ -84,7 +84,6 @@ export default {
         this.tags = res.data.map(item => item.tagName)
       })
     },
-
     getEditPageDate() {  //获得文章的数据
       let id = this.$store.state.editArticleId
       this.$http.get(`articlesList/${id}`).then(res => {

@@ -2,13 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 //懒加载
-const Login = () => import('../views/Login.vue')
-const BlogBack = () => import('../views/BlogBack.vue')
-const ArticlesList = () => import('../views/articles/ArticlesList.vue')
-const ArticlesCreate = () => import('../views/articles/ArticlesCreate.vue')
-const ArticlesComments = () => import('../views/articles/ArticlesComments.vue')
-const ArticlesEdit = () => import('../views/articles/ArticlesEdit.vue')
-const TagsManage = () => import('../views/tags/TagsManage.vue')
+const Login = () => import('@/views/Login.vue')
+const BlogBack = () => import('@/views/BlogBack.vue')
+const ArticlesList = () => import('@/views/articles/ArticlesList.vue')
+const ArticlesCreate = () => import('@/views/articles/ArticlesCreate.vue')
+const ArticlesComments = () => import('@/views/articles/ArticlesComments.vue')
+const ArticlesEdit = () => import('@/views/articles/ArticlesEdit.vue')
+const TagsManage = () => import('@/views/tags/TagsManage.vue')
+const LeaveMessages = () => import('@/views/global/LeaveMessages.vue')
 
 Vue.use(VueRouter)
 
@@ -39,7 +40,7 @@ const routes = [
         meta: { title: '新建文章 | YFJ的博客后台'}
       },
       {
-        path: 'comments',
+        path: 'comments/:id',
         component: ArticlesComments,
         meta: { title: '评论管理 | YFJ的博客后台'}
       },
@@ -60,6 +61,19 @@ const routes = [
         path: 'manage',
         component: TagsManage,
         meta: { title: '标签管理 | YFJ的博客后台' },
+      }
+    ]
+  },
+  {
+    path: '/globalManage',
+    component: BlogBack,
+    redirect: '/globalManage/theme',
+    meta: { title: '主题设置 | YFJ的博客后台' },
+    children: [
+      {
+        path: 'leaveMessages',
+        component: LeaveMessages,
+        meta: { title: '留言管理 | YFJ的博客后台' },
       }
     ]
   },

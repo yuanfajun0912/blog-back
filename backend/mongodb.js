@@ -15,6 +15,10 @@ const Users = mongoose.model('Users', new mongoose.Schema({
   userName: { type: String },
   password: { type: String }
 }))
+//发表评论的游客
+const Visitors = mongoose.model('Visitors', new mongoose.Schema({
+  name: { type: String }
+}))
 //文章
 const Articles = mongoose.model('Articles', new mongoose.Schema({
   id: CountedId,  //自增长id
@@ -34,10 +38,13 @@ const Tags = mongoose.model('Tags', new mongoose.Schema({
   tagName: { type: String }
 }))
 //留言
-const leaveMessages = mongoose.model('leaveMessages', new mongoose.Schema({
+const LeaveMessages = mongoose.model('leaveMessages', new mongoose.Schema({
   nickName: { type: String },
   body: { type: String },
   time: { type: String },
+  reply: { type: String },
+  loginNum: { type: Number, default: 0 },
+  commentId: { type: Number }
 }))
 
 //分类
@@ -46,4 +53,4 @@ const Categories = mongoose.model('Categories', new mongoose.Schema({
   id: CountedId
 }))
 
-module.exports = { Users, Articles, Tags, Categories, leaveMessages }
+module.exports = { Users, Visitors, Articles, Tags, Categories, LeaveMessages }
