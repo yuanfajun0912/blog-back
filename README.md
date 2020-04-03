@@ -39,6 +39,10 @@ mongodb、mongoose（管理工具）、robo3t（可视化）
 
 ![评论.PNG](https://i.loli.net/2020/04/02/QyovYJTK54GFaUV.png)
 
+时间线管理
+
+![timeline.PNG](https://i.loli.net/2020/04/03/Kiotjn7HsVWQRTl.png)
+
 ## 已完成
 
 - [x] 用户切换
@@ -50,6 +54,7 @@ mongodb、mongoose（管理工具）、robo3t（可视化）
 - [x] 标签管理（新建、删除）
 - [x] 文章评论管理
 - [x] 留言管理
+- [x] 时间线管理
 
 ## 未完成
 

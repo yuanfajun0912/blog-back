@@ -28,6 +28,7 @@
           <template slot="title"><i class="el-icon-setting"></i>全局管理</template>
           <el-menu-item index="/globalManage/theme">主题设置</el-menu-item>
           <el-menu-item index="/globalManage/leaveMessages">留言管理</el-menu-item>
+          <el-menu-item index="/globalManage/timeline">时间线管理</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-aside>

@@ -46,6 +46,12 @@ const LeaveMessages = mongoose.model('leaveMessages', new mongoose.Schema({
   loginNum: { type: Number, default: 0 },
   commentId: { type: Number }
 }))
+//时间线
+const Timeline = mongoose.model('Timeline', new mongoose.Schema({
+  title: { type: String },
+  body: { type: String },
+  time: { type: String }
+}))
 
 //分类
 const Categories = mongoose.model('Categories', new mongoose.Schema({
@@ -53,4 +59,4 @@ const Categories = mongoose.model('Categories', new mongoose.Schema({
   id: CountedId
 }))
 
-module.exports = { Users, Visitors, Articles, Tags, Categories, LeaveMessages }
+module.exports = { Users, Visitors, Articles, Tags, Timeline, Categories, LeaveMessages }

@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { Users, Visitors, Articles, Tags, Categories, LeaveMessages } = require('./mongodb')
+const { Users, Visitors, Articles, Tags, Timeline, Categories, LeaveMessages } = require('./mongodb')
 app.use(require('cors')())  //允许跨域
 app.use(express.json())  //允许处理json数据
 const jwt = require('jsonwebtoken') //token的包
@@ -144,7 +144,7 @@ app.get('/leaveMessages', async (req, res) => {  //获得所有留言
   res.send(leaveMessages)
 })
 app.put('/leaveMessages', async (req, res) => {  //更新留言（回复/删除）
-  req.body.reverse()  //拿的时候对评论反序了的，那么更新评论的时候要掰过来
+  req.body.reverse()  //拿的时候对留言反序了的，那么更新留言的时候要掰过来
   await LeaveMessages.remove()
   await LeaveMessages.insertMany(req.body)
   res.send('更新成功')
@@ -167,6 +167,28 @@ app.post('/leaveMessages', async (req, res) => {  //增加留言
   } 
   res.send(req.body.loginNum) 
 })
+
+/**
+ * 时间线相关 
+ */
+app.get('/timeline', async (req, res) => {
+  const things = await Timeline.find()
+  things.reverse()
+  res.send(things)
+})
+app.put('/timeline/:id', async (req, res) => {  //编辑
+  const thing = await Timeline.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  res.send(thing)
+}) 
+app.delete('/timeline/:id', async (req, res) => {  //删除
+  await Timeline.findByIdAndDelete(req.params.id)
+  res.send('成功删除')
+})
+app.post('/timeline', async (req, res) => {  //增加时间线
+  await Timeline.create(req.body)
+  res.send('成功添加')
+})
+
 /*
   标签相关
 */

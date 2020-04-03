@@ -10,6 +10,7 @@ const ArticlesComments = () => import('@/views/articles/ArticlesComments.vue')
 const ArticlesEdit = () => import('@/views/articles/ArticlesEdit.vue')
 const TagsManage = () => import('@/views/tags/TagsManage.vue')
 const LeaveMessages = () => import('@/views/global/LeaveMessages.vue')
+const Timeline = () => import('@/views/global/Timeline.vue')
 
 Vue.use(VueRouter)
 
@@ -74,6 +75,11 @@ const routes = [
         path: 'leaveMessages',
         component: LeaveMessages,
         meta: { title: '留言管理 | YFJ的博客后台' },
+      }, 
+      {
+        path: 'timeline',
+        component: Timeline,
+        meta: { title: '时间线管理 | YFJ的博客后台' }
       }
     ]
   },
