@@ -43,6 +43,10 @@ mongodb、mongoose（管理工具）、robo3t（可视化）
 
 ![timeline.PNG](https://i.loli.net/2020/04/03/Kiotjn7HsVWQRTl.png)
 
+置顶文章管理
+
+![topicArticles.PNG](https://i.loli.net/2020/04/15/MOY9oUcJ2pQarT6.png)
+
 ## 已完成
 
 - [x] 用户切换
@@ -55,10 +59,9 @@ mongodb、mongoose（管理工具）、robo3t（可视化）
 - [x] 文章评论管理
 - [x] 留言管理
 - [x] 时间线管理
+- [x] 置顶文章管理
 
 ## 未完成
-
-主要是因为前台还没做，所以很多功能还没做
 
 - [ ] 登录日志
 - [ ] 博客主题管理

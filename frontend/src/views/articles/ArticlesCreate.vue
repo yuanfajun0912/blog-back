@@ -58,17 +58,17 @@ export default {
     return { 
       article: {  //文章信息
         title: '',  //标题
-        body: '',
         selectTags: [],  //选中的标签，后台就只需要每一项的userName和每一项对应的索引值，每一项的i用作统一颜色
         time: '',
         value: '', //markdown编辑器解析成html前的内容
         discription: '',  //文章描述
         topicImage: '',  //文章顶部图片
         views: 100,
-        like: 100,
+        like: 0,
         comments: [],
       },
       tags: [],  //从后端获取的标签
+      body: ''  //markdown编辑器渲染后的内容
     }
   },
   computed: {
@@ -92,7 +92,7 @@ export default {
         });
       }
       let myDate = new Date()
-      this.article.time = formatDate(myDate, 'yyyy-MM-dd hh:mm:ss') //获取当前时间
+      this.article.time = formatDate(myDate, 'yyyy-MM-dd') //获取当前时间
       this.$confirm('您是否已经保存了内容？未保存请点击取消去保存，已经保存请点击确定', '提示', {  //提示框
         cancelButtonText: '取消',
         confirmButtonText: '确定',
@@ -107,16 +107,16 @@ export default {
           this.$router.push('/articles/list') //跳回文章列表页面
           this.article = {  //跳回文章列表页后将新建页数据清空
             title: '',      
-            body: '',  
             selectTags: [], 
             time: '',
             value: '',
             discription: '', 
             topicImage: '',  
             views: 100,
-            like: 100,
+            like: 0,
             comments: [],      
           }
+          this.body = ''
         })
         })
         .catch(() => {
@@ -137,16 +137,16 @@ export default {
           this.$router.push('/articles/list') //跳回文章列表页面
           this.article = {  //将新建页数据清空
             title: '',      
-            body: '',
             currentCg: '',   
             time: '',
             value: '',
             discription: '', 
             topicImage: '',  
             views: 100,
-            like: 100,
+            like: 0,
             comments: [],      
           }
+          this.body = ''
         })
         .catch(() => {})  //虽然不做处理，但还是要写catch，否则会报错
     },
@@ -193,7 +193,7 @@ export default {
         confirmButtonText: '确定',
         type: 'warning'
       }).then(() => {
-        this.article.body = render
+        this.body = render
         this.$message({
           type: 'success',
           message: '已保存'

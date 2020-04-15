@@ -47,20 +47,19 @@
         </template>
       </el-table-column>
       <el-table-column label="操作">
-        <!-- scope.row是当前行的数据信息，id是它在数据库中的id --> 
         <template slot-scope="scope"> 
           <div class="control">
             <el-button
               size="mini" 
-              @click="edit(scope.row.id)">编辑</el-button>
+              @click="edit(scope.row._id)">编辑</el-button>
             <el-button
               size="mini" 
               type="warning"
-              @click="manageComments(scope.row.id)">管理评论</el-button>  
+              @click="manageComments(scope.row._id)">管理评论</el-button>  
             <el-button
               size="mini"
               type="danger"
-              @click="remove(scope.row.id)">删除</el-button>
+              @click="remove(scope.row._id)">删除</el-button>
           </div>
         </template>
       </el-table-column>

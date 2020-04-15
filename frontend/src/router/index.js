@@ -7,6 +7,7 @@ const BlogBack = () => import('@/views/BlogBack.vue')
 const ArticlesList = () => import('@/views/articles/ArticlesList.vue')
 const ArticlesCreate = () => import('@/views/articles/ArticlesCreate.vue')
 const ArticlesComments = () => import('@/views/articles/ArticlesComments.vue')
+const ArticlesTop = () => import('@/views/articles/ArticlesTop.vue')
 const ArticlesEdit = () => import('@/views/articles/ArticlesEdit.vue')
 const TagsManage = () => import('@/views/tags/TagsManage.vue')
 const LeaveMessages = () => import('@/views/global/LeaveMessages.vue')
@@ -49,6 +50,11 @@ const routes = [
         path: 'edit/:id',
         component: ArticlesEdit,
         meta: { title: '编辑文章 | YFJ的博客后台'}
+      },
+      {
+        path: 'topManage',
+        component: ArticlesTop,
+        meta: { title: '置顶文章管理 | YFJ的博客后台'}
       }
     ]
   },
