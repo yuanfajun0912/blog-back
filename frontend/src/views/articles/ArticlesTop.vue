@@ -144,6 +144,10 @@ export default {
       })
         .then(() => {
           this.$http.post('topicArticles', this.topicArticles)
+          this.$message({  
+            message: '提交成功',
+            type: 'success'
+          });
         })
         .catch(() => {
           this.$message({

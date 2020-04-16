@@ -12,6 +12,7 @@ const ArticlesEdit = () => import('@/views/articles/ArticlesEdit.vue')
 const TagsManage = () => import('@/views/tags/TagsManage.vue')
 const LeaveMessages = () => import('@/views/global/LeaveMessages.vue')
 const Timeline = () => import('@/views/global/Timeline.vue')
+const AboutManage = () => import('@/views/global/AboutManage.vue')
 
 Vue.use(VueRouter)
 
@@ -74,9 +75,12 @@ const routes = [
   {
     path: '/globalManage',
     component: BlogBack,
-    redirect: '/globalManage/theme',
-    meta: { title: '主题设置 | YFJ的博客后台' },
     children: [
+      {
+        path: 'about',
+        component: AboutManage,
+        meta: { title: '关于页面管理 | YFJ的博客后台' },
+      }, 
       {
         path: 'leaveMessages',
         component: LeaveMessages,

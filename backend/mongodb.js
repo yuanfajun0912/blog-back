@@ -18,7 +18,7 @@ const Users = mongoose.model('Users', new mongoose.Schema({
 //发表评论的游客
 const Visitors = mongoose.model('Visitors', new mongoose.Schema({
   name: { type: String, default: '' }
-}))
+})) 
 //文章
 const Articles = mongoose.model('Articles', new mongoose.Schema({
   title: { type: String, default: '' },
@@ -57,11 +57,18 @@ const Timeline = mongoose.model('Timeline', new mongoose.Schema({
   body: { type: String, default: ''},
   time: { type: String, default: '' }
 }))
-
+//关于
+const About = mongoose.model('About', new mongoose.Schema({
+  avatar: { type: String, default: '' },  //头像
+  nickName: { type: String, default: '' },  //昵称
+  motto: { type: String, default: '' },  //格言
+  contactWays: { type: Array, default: [] },  //联系方式
+  body: { type: String, default: '' }  //简介（md格式）
+}))
 //分类
 const Categories = mongoose.model('Categories', new mongoose.Schema({
   cgName: { type: String, default: '' },
   // id: CountedId
 }))
 
-module.exports = { Users, Visitors, Articles, TopicArticles, Tags, Timeline, Categories, LeaveMessages }
+module.exports = { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, Categories, LeaveMessages }

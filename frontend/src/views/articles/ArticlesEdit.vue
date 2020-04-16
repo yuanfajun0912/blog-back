@@ -59,13 +59,13 @@ export default {
         title: '',  //标题
         selectTags: [],  //选中的标签，后台就只需要每一项的userName和每一项对应的索引值，每一项的i用作统一颜色
         time: '',
-        value: '' //markdown编辑器解析成html前的内容
+        value: '', //markdown编辑器解析成html前的内容
+        discription: '',  //文章描述
+        topicImage: '',  //文章顶部图片
       },
       tags: [],  //从后端获取的标签
       body: '',
       value: '', //markdown编辑器的value
-      discription: '',  //文章描述
-      topicImage: '',  //文章顶部图片
     }
   },
   computed: {
@@ -79,7 +79,7 @@ export default {
     getTags() {  //拿到标签
       this.$http.get('/tagsList').then(res => {
         this.tags = res.data.map(item => item.tagName)
-      })
+      }) 
     },
     getEditPageDate() {  //获得文章的数据
       let id = this.$store.state.editArticleId

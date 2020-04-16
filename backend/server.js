@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { Users, Visitors, Articles, TopicArticles, Tags, Timeline, Categories, LeaveMessages } = require('./mongodb')
+const { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, Categories, LeaveMessages } = require('./mongodb')
 app.use(require('cors')())  //允许跨域
 app.use(express.json())  //允许处理json数据
 const jwt = require('jsonwebtoken') //token的包
@@ -64,14 +64,26 @@ app.get('/articlesList', authentic, async (req, res) => {  //获取文章列表�
 })
 app.get('/articles', async (req, res) => {  //获取文章列表（前台/后台置顶文章管理专用）
   var articles = await (await Articles.find()).reverse()  //反序
-  const topicArticles = await TopicArticles.find()
+  const topicArticlesId = await TopicArticles.find()
   const total = articles.length
   const page = req.query.page  //拿到传入的page,要用query拿
-  if(page > 0) {
+  if(page > 0) {  //前台
+    const topicArticles = topicArticlesId.map(item => {
+      for(let i of articles) {
+        if(item.articleTitle == i.title) {
+          return i
+        }
+      }
+    })
     articles = articles.slice((page-1)*10, page*10)  //分页处理 
+    articles.push(total)  //传出文章总数 
+    articles.push(topicArticles)  //传出置顶文章
+    res.send(articles)
+    return
   }
+  //后台文章管理
   articles.push(total)  //传出文章总数 
-  articles.push(topicArticles)  //传出置顶文章
+  articles.push(topicArticlesId)  //传出置顶文章id
   res.send(articles)
 })
 app.get('/articlesList/:id', async (req, res) => {  //获取一篇文章
@@ -328,11 +340,18 @@ app.get('/tags/:id/articles', async (req, res) => {  //拿到一个标签的文�
   res.send(articles)
 })
 
-// app.put('/tagsList/:id', async (req, res) => {  //修改一个标签
-//   const tag = await Tags.findByIdAndUpdate(req.params.id, req.body)
-//   res.send(tag)
-// })
-
+/*
+  关于页面 
+*/
+app.get('/about', async (req, res) => {  //拿到数据
+  const about = await About.find()
+  res.send(about)
+})
+app.post('/about', async (req, res) => {  //更新
+  await About.remove()
+  await About.insertMany(req.body)
+  res.send('ok')
+})
 /*
   分类相关
 */
