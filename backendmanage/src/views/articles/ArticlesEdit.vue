@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { formatDate, tagColor } from '../../common/utils'
+import { tagColor } from '../../common/utils'
 export default {
   name: 'ArticlesEdit',
   data() {
@@ -114,8 +114,8 @@ export default {
         });
       }
       let id = this.$store.state.editArticleId
-      let myDate = new Date()
-      this.article.time = formatDate(myDate, 'yyyy-MM-dd') //获取当前时间
+      // let myDate = new Date()
+      // this.article.time = formatDate(myDate, 'yyyy-MM-dd') //获取当前时间
       this.$confirm('您是否已经保存了内容？未保存请点击取消去保存，已经保存请点击确定', '提示', {  //提示框
         cancelButtonText: '取消',
         confirmButtonText: '确定',

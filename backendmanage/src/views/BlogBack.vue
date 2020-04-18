@@ -30,6 +30,7 @@
           <el-menu-item index="/globalManage/about">关于页面管理</el-menu-item>
           <el-menu-item index="/globalManage/leaveMessages">留言管理</el-menu-item>
           <el-menu-item index="/globalManage/timeline">时间线管理</el-menu-item>
+          <el-menu-item index="/globalManage/linksmanage">友链管理</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-aside>

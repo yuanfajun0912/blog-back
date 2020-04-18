@@ -13,6 +13,7 @@ const TagsManage = () => import('@/views/tags/TagsManage.vue')
 const LeaveMessages = () => import('@/views/global/LeaveMessages.vue')
 const Timeline = () => import('@/views/global/Timeline.vue')
 const AboutManage = () => import('@/views/global/AboutManage.vue')
+const LinksManage = () => import('@/views/global/LinksManage.vue')
 
 Vue.use(VueRouter)
 
@@ -90,6 +91,11 @@ const routes = [
         path: 'timeline',
         component: Timeline,
         meta: { title: '时间线管理 | YFJ的博客后台' }
+      },
+      {
+        path: 'linksmanage',
+        component: LinksManage,
+        meta: { title: '友链管理 | YFJ的博客后台' }
       }
     ]
   },

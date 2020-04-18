@@ -26,8 +26,9 @@
       </el-form-item>
       <!-- markdown文本编辑器 -->
       <mavon-editor 
-        v-model="about.body"
+        v-model="about.value"
         fontSize="18px"
+        @save="getHtml"
       ></mavon-editor>
     </el-form>
   </div>
@@ -43,9 +44,11 @@ export default {
       //   nickName: '',  //昵称
       //   motto: '',  //格言
       //   contactWays: [],  //联系方式
-      //   body: ''  //简介（md格式）
+      //   body: '',  //简介（html）
+      //   value: '',  //输入的内容
       // }
-      about: {}
+      about: {},
+      value: '', //markdown编辑器的value
     }
   },
   methods: {
@@ -80,6 +83,24 @@ export default {
             message: '已取消'
           });          
         });
+    },
+    getHtml(value, render) {  //点击markdown编辑器的保存按钮
+      this.$confirm('此操作将替换掉原有的文本内容，是否继续？', '提示', {  //提示框
+        cancelButtonText: '取消',
+        confirmButtonText: '确定',
+        type: 'warning'
+      }).then(() => {
+        this.about.body = render
+        this.$message({
+          type: 'success',
+          message: '已保存'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消保存'
+        });          
+      });
     }
   },
   created() {

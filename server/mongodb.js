@@ -63,12 +63,13 @@ const About = mongoose.model('About', new mongoose.Schema({
   nickName: { type: String, default: '' },  //昵称
   motto: { type: String, default: '' },  //格言
   contactWays: { type: Array, default: [] },  //联系方式
-  body: { type: String, default: '' }  //简介（md格式）
+  body: { type: String, default: '' },  //简介（html格式）
+  value: { type: String, default: '' }  //markdown编辑器输入的内容
 }))
-//分类
-const Categories = mongoose.model('Categories', new mongoose.Schema({
-  cgName: { type: String, default: '' },
-  // id: CountedId
+//友链
+const FriendshipLinks = mongoose.model('FriendshipLinks', new mongoose.Schema({
+  name: { type: String, default: '' },  //链接名
+  url: { type: String, default: '' }  //链接url
 }))
 
-module.exports = { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, Categories, LeaveMessages }
+module.exports = { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, LeaveMessages, FriendshipLinks }

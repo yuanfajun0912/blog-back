@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, Categories, LeaveMessages } = require('./mongodb')
+const { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, LeaveMessages, FriendshipLinks } = require('./mongodb')
 app.use(require('cors')())  //允许跨域
 app.use(express.json())  //允许处理json数据
 const jwt = require('jsonwebtoken') //token的包
@@ -352,34 +352,19 @@ app.post('/about', async (req, res) => {  //更新
   await About.insertMany(req.body)
   res.send('ok')
 })
-/*
-  分类相关
-*/
-// Categories.find({ id: { $gt: 0 } }).sort({ id: -1 }) 
-// .then(([first, ...others]) => {
-//     if (first)
-//         counter = first.id + 1;
-// });
-// app.get('/categoriesList', async (req, res) => {  //获取所有分类
-//   const categories = await Categories.find()
-//   res.send(categories)
-// })
-// app.post('/categoriesList', async (req, res) => {  //新增分类
-//   await Categories.insertMany(req.body)            //需要是个数组
-//   res.send('成功添加')                              //数组里面每一项是对象
-// })
-// app.delete('/categoriesList/:id', async (req, res) => {  //删除一个标签
-//   await Categories.findByIdAndDelete(req.params.id)
-//   res.send('成功删除')
-// })
-// app.put('/categoriesList/:id', async (req, res) => {  //修改一个分类
-//   const categorie = await Categorie.findByIdAndUpdate(req.params.id, req.body)
-//   res.send(categorie)
-// })
-// app.get('/categoriesList/delete', async (req, res) => {  //删除所有分类
-//   await Categorie.deleteMany()                       //（风险太大，最好别用） 
-//   res.send('成功删除')
-// })
+
+/**
+ * 友链相关
+ */
+app.get('/friendshiplinks', async (req, res) => {
+  const links = await FriendshipLinks.find()
+  res.send(links)
+})
+app.post('/friendshiplinks', async (req, res) => {  //编辑/删除/添加
+  await FriendshipLinks.remove()
+  await FriendshipLinks.insertMany(req.body)
+  res.send('更新成功')
+})
 
 
 app.listen(3000, () => {

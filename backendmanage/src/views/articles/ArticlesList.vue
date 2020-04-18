@@ -12,7 +12,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column prop="time" label="上一次更新时间" width="200">
+      <el-table-column prop="time" label="时间" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" style="color: black"></i>
           <span style="margin-left: 5px">{{ scope.row.time }}</span>
