@@ -1,8 +1,12 @@
 const express = require('express')
 const app = express()
 const { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, LeaveMessages, FriendshipLinks } = require('./mongodb')
+
 app.use(require('cors')())  //允许跨域
 app.use(express.json())  //允许处理json数据
+app.use('/', express.static(__dirname + '/front'))  //前台
+app.use('/back', express.static(__dirname + '/back'))  //后台
+
 const jwt = require('jsonwebtoken') //token的包
 const SECRET = 'F651AF1A6VA1C6AC65A1' //密钥
 
