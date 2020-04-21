@@ -25,36 +25,43 @@ const routes = [
   },
   {
     path: '/login',
+    // name: 'Login',
     component: Login,
     meta: { title: '登录 | YFJ的博客后台' },
   },
   {
     path: '/articles',
+    // name: 'BlogBack',
     component: BlogBack,
     redirect: '/articles/list',
     children: [
       {
         path: 'list',
+        // name: 'ArticlesList',
         component: ArticlesList,
         meta: { title: '文章列表 | YFJ的博客后台' }
       },
       {
         path: 'create',
+        // name: 'ArticlesCreate',
         component: ArticlesCreate,
         meta: { title: '新建文章 | YFJ的博客后台'}
       },
       {
         path: 'comments/:id',
+        // name: 'ArticlesComments',
         component: ArticlesComments,
         meta: { title: '评论管理 | YFJ的博客后台'}
       },
       {
         path: 'edit/:id',
+        // name: 'ArticlesEdit',
         component: ArticlesEdit,
         meta: { title: '编辑文章 | YFJ的博客后台'}
       },
       {
         path: 'topManage',
+        // name: 'ArticlesTop',
         component: ArticlesTop,
         meta: { title: '置顶文章管理 | YFJ的博客后台'}
       }
@@ -62,12 +69,14 @@ const routes = [
   },
   {
     path: '/tags',
+    // name: 'BlogBack',
     component: BlogBack,
     redirect: '/tags/manage',
     meta: { title: '标签管理 | YFJ的博客后台' },
     children: [
       {
         path: 'manage',
+        // name: 'TagsManage',
         component: TagsManage,
         meta: { title: '标签管理 | YFJ的博客后台' },
       }
@@ -75,6 +84,7 @@ const routes = [
   },
   {
     path: '/globalManage',
+    // name: 'Blog',
     component: BlogBack,
     children: [
       {
