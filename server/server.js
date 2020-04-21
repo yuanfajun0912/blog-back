@@ -14,7 +14,7 @@ const SECRET = 'F651AF1A6VA1C6AC65A1' //密钥
 /*
   用户相关
 */
-app.post('/login', async (req, res) => {  //登录
+app.post('/api/login', async (req, res) => {  //登录
   const user = await Users.findOne({
     userName: req.body.userName
   })
@@ -30,7 +30,7 @@ app.post('/login', async (req, res) => {  //登录
   })
 })
 //游客
-app.post('/visitors', async (req, res) => {
+app.post('/api/visitors', async (req, res) => {
   await Visitors.insertMany(req.body)
   res.send('111')
 })
@@ -53,7 +53,7 @@ const authentic = async (req, res, next) => {  //验证token的中间件
   next()
 }
 
-app.get('/articlesList', authentic, async (req, res) => {  //获取文章列表（后台专用）
+app.get('/api/articlesList', authentic, async (req, res) => {  //获取文章列表（后台专用）
   var articles = await (await Articles.find()).reverse()  //反序
   const total = articles.length
   const page = req.query.page  //拿到传入的page,要用query拿
@@ -66,7 +66,7 @@ app.get('/articlesList', authentic, async (req, res) => {  //获取文章列表�
   }
   res.send(articles)
 })
-app.get('/articles', async (req, res) => {  //获取文章列表（前台/后台置顶文章管理专用）
+app.get('/api/articles', async (req, res) => {  //获取文章列表（前台/后台置顶文章管理专用）
   var articles = await (await Articles.find()).reverse()  //反序
   const topicArticlesId = await TopicArticles.find()
   const total = articles.length
@@ -90,13 +90,13 @@ app.get('/articles', async (req, res) => {  //获取文章列表（前台/后台
   articles.push(topicArticlesId)  //传出置顶文章id
   res.send(articles)
 })
-app.get('/articlesList/:id', async (req, res) => {  //获取一篇文章
+app.get('/api/articlesList/:id', async (req, res) => {  //获取一篇文章
   const article = await Articles.findById(req.params.id)
   article.views++  //浏览量+1
   article.save()
   res.send(article)
 })
-app.post('/articlesList', async (req, res) => {  //增加一篇文章
+app.post('/api/articlesList', async (req, res) => {  //增加一篇文章
   const article = await Articles.create(req.body)
   const selectTags = article.selectTags
   selectTags.forEach(async item => { //将这篇文章的_id加到它的selectTags中去
@@ -106,7 +106,7 @@ app.post('/articlesList', async (req, res) => {  //增加一篇文章
   })
   res.send('成功增加一篇文章')
 })
-app.put('/articlesList/:id', async (req, res) => {  //更新一篇文章
+app.put('/api/articlesList/:id', async (req, res) => {  //更新一篇文章
   const oldArticle = await Articles.findById(req.params.id)
   const oldSelectTags = oldArticle.selectTags
   //{ new: true }使得返回的article是修改后的值
@@ -145,13 +145,13 @@ app.put('/articlesList/:id', async (req, res) => {  //更新一篇文章
   })
   res.send(article)
 })
-app.put('/articlesList/:id/like', async (req, res) => {  //喜欢一篇文章
+app.put('/api/articlesList/:id/like', async (req, res) => {  //喜欢一篇文章
   let article = await Articles.findById(req.params.id)
   article.like++
   await article.save()
   res.send(article.like)
 })
-app.delete('/articlesList/:id', async (req, res) => {  //删除一篇文章 
+app.delete('/api/articlesList/:id', async (req, res) => {  //删除一篇文章 
   const article = await Articles.findById(req.params.id)
   await Articles.findByIdAndDelete(req.params.id)
   let tags = article.selectTags
@@ -163,7 +163,7 @@ app.delete('/articlesList/:id', async (req, res) => {  //删除一篇文章
   })
   res.send('成功删除')
 })
-app.post('/topicArticles', async (req, res) => {  //更新置顶文章
+app.post('/api/topicArticles', async (req, res) => {  //更新置顶文章
   await TopicArticles.remove()
   await TopicArticles.insertMany(req.body)
   res.send('更新成功')
@@ -173,7 +173,7 @@ app.post('/topicArticles', async (req, res) => {  //更新置顶文章
   评论相关
 */
 
-app.get('/articleComments/:id', async (req, res) => {  //获取一篇文章的评论
+app.get('/api/articleComments/:id', async (req, res) => {  //获取一篇文章的评论
   const article = await Articles.findById(req.params.id)
   let comment = article.comments
   comment.reverse()
@@ -188,14 +188,14 @@ app.get('/articleComments/:id', async (req, res) => {  //获取一篇文章的�
   comment.push(article.title)  //把文章标题页传出去
   res.send(comment)
 })
-app.put('/articleComments/:id', async (req, res) => {  //更新评论（回复/删除）
+app.put('/api/articleComments/:id', async (req, res) => {  //更新评论（回复/删除）
   let article = await Articles.findById(req.params.id)
   req.body.reverse()  //拿的时候对评论反序了的，那么更新评论的时候要掰过来
   article.comments = req.body
   await article.save()  //将改动保存到数据库中
   res.send('更新成功')
 })
-app.post('/articleComments/:id', async (req, res) => {  //向一篇文章增加一个评论
+app.post('/api/articleComments/:id', async (req, res) => {  //向一篇文章增加一个评论
   let article = await Articles.findById(req.params.id)
   let visitors = await Visitors.find()
   const isRepeat = visitors.some(visitor => {  //检验昵称是否第一次登录且昵称重复
@@ -222,7 +222,7 @@ app.post('/articleComments/:id', async (req, res) => {  //向一篇文章增加�
 /*
   留言相关
 */
-app.get('/leaveMessages', async (req, res) => {  //获得所有留言
+app.get('/api/leaveMessages', async (req, res) => {  //获得所有留言
   let leaveMessages = await LeaveMessages.find()
   leaveMessages.reverse() 
   if(req.query.page) {  //前端传入了page则做分页处理，不传就不做分页处理
@@ -235,13 +235,13 @@ app.get('/leaveMessages', async (req, res) => {  //获得所有留言
   })
   res.send(leaveMessages)
 })
-app.put('/leaveMessages', async (req, res) => {  //更新留言（回复/删除）
+app.put('/api/leaveMessages', async (req, res) => {  //更新留言（回复/删除）
   req.body.reverse()  //拿的时候对留言反序了的，那么更新留言的时候要掰过来
   await LeaveMessages.remove()
   await LeaveMessages.insertMany(req.body)
   res.send('更新成功')
 })
-app.post('/leaveMessages', async (req, res) => {  //增加留言
+app.post('/api/leaveMessages', async (req, res) => {  //增加留言
   let visitors = await Visitors.find()
   const isRepeat = visitors.some(visitor => {  //检验昵称是否第一次登录且昵称重复
     if(req.body.loginNum === 0 && visitor.name === req.body.nickName) {
@@ -265,20 +265,20 @@ app.post('/leaveMessages', async (req, res) => {  //增加留言
 /**
  * 时间线相关 
  */
-app.get('/timeline', async (req, res) => {
+app.get('/api/timeline', async (req, res) => {
   const things = await Timeline.find()
   things.reverse()
   res.send(things)
 })
-app.put('/timeline/:id', async (req, res) => {  //编辑
+app.put('/api/timeline/:id', async (req, res) => {  //编辑
   const thing = await Timeline.findByIdAndUpdate(req.params.id, req.body, { new: true })
   res.send(thing)
 }) 
-app.delete('/timeline/:id', async (req, res) => {  //删除
+app.delete('/api/timeline/:id', async (req, res) => {  //删除
   await Timeline.findByIdAndDelete(req.params.id)
   res.send('成功删除')
 })
-app.post('/timeline', async (req, res) => {  //增加时间线
+app.post('/api/timeline', async (req, res) => {  //增加时间线
   await Timeline.create(req.body)
   res.send('成功添加')
 })
@@ -286,15 +286,15 @@ app.post('/timeline', async (req, res) => {  //增加时间线
 /*
   标签相关
 */
-app.get('/tagsList', async (req, res) => {  //获取所有标签
+app.get('/api/tagsList', async (req, res) => {  //获取所有标签
   const tags = await Tags.find()
   res.send(tags)
 })
-app.post('/tagsList', async (req, res) => {  //新增标签
+app.post('/api/tagsList', async (req, res) => {  //新增标签
   await Tags.insertMany(req.body)            //需要是个数组
   res.send('成功添加')                        //数组里面每一项是对象 
 })
-app.delete('/tagsList/:id', async (req, res) => {  //删除一个标签
+app.delete('/api/tagsList/:id', async (req, res) => {  //删除一个标签
   await Tags.findByIdAndDelete(req.params.id)
   res.send('成功删除')
 })
@@ -308,7 +308,7 @@ app.delete('/tagsList/:id', async (req, res) => {  //删除一个标签
  * 
  * 这个只能用一次，就是强制让其变为正确的
  */
-app.get('/tags/:id', async (req, res) => {  //确定每个标签的selectTags
+app.get('/api/tags/:id', async (req, res) => {  //确定每个标签的selectTags
   let tag = await Tags.findById(req.params.id)
   let name = tag.tagName
   const articles = await Articles.find()
@@ -327,7 +327,7 @@ app.get('/tags/:id', async (req, res) => {  //确定每个标签的selectTags
   await tag.save()
   res.send('okok')
 })
-app.get('/tags/:id/articles', async (req, res) => {  //拿到一个标签的文章
+app.get('/api/tags/:id/articles', async (req, res) => {  //拿到一个标签的文章
   const tag = await Tags.findById(req.params.id)
   const selectArticlesId = tag.selectArticles
   var articles = []
@@ -347,11 +347,11 @@ app.get('/tags/:id/articles', async (req, res) => {  //拿到一个标签的文�
 /*
   关于页面 
 */
-app.get('/about', async (req, res) => {  //拿到数据
+app.get('/api/about', async (req, res) => {  //拿到数据
   const about = await About.find()
   res.send(about)
 })
-app.post('/about', async (req, res) => {  //更新
+app.post('/api/about', async (req, res) => {  //更新
   await About.remove()
   await About.insertMany(req.body)
   res.send('ok')
@@ -360,11 +360,11 @@ app.post('/about', async (req, res) => {  //更新
 /**
  * 友链相关
  */
-app.get('/friendshiplinks', async (req, res) => {
+app.get('/api/friendshiplinks', async (req, res) => {
   const links = await FriendshipLinks.find()
   res.send(links)
 })
-app.post('/friendshiplinks', async (req, res) => {  //编辑/删除/添加
+app.post('/api/friendshiplinks', async (req, res) => {  //编辑/删除/添加
   await FriendshipLinks.remove()
   await FriendshipLinks.insertMany(req.body)
   res.send('更新成功')
