@@ -14,7 +14,7 @@ const SECRET = 'F651AF1A6VA1C6AC65A1' //密钥
 /*
   用户相关
 */
-app.post('/api/login', async (req, res) => {  //登录
+app.post('/api/login', async (req, res) => {  //登录 
   const user = await Users.findOne({
     userName: req.body.userName
   })
