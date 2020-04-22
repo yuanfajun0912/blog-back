@@ -4,5 +4,5 @@ module.exports = {
   // publicPath: './',  //解决打包后页面空白的问题
   publicPath: process.env.NODE_ENV === 'production'  // 生产/开发环境的路径问题
     ? '/back/'
-    : './'
+    : '/'
 }
