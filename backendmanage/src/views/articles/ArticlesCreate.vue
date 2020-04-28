@@ -63,7 +63,7 @@ export default {
         value: '', //markdown编辑器解析成html前的内容
         discription: '',  //文章描述
         topicImage: '',  //文章顶部图片
-        views: 100,
+        views: 0,
         like: 0,
         comments: [],
       },
@@ -112,7 +112,7 @@ export default {
             value: '',
             discription: '', 
             topicImage: '',  
-            views: 100,
+            views: 0,
             like: 0,
             comments: [],      
           }
@@ -142,7 +142,7 @@ export default {
             value: '',
             discription: '', 
             topicImage: '',  
-            views: 100,
+            views: 0,
             like: 0,
             comments: [],      
           }
