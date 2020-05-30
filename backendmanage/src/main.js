@@ -12,7 +12,7 @@ import './assets/iconfont/iconfont.css'  //引入阿里矢量图标
 //则所有组件都可访问这个axios实例
 Vue.prototype.$http = axios.create({ 
   // baseURL: 'http://localhost:3000/'
-  baseURL: process.env.VUE_APP_API_URL || '/api/' //根据服务器域名动态决定url
+  baseURL: process.env.VUE_APP_API_URL || 'http://59.110.230.23/api/' //根据服务器域名动态决定url
 })
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
