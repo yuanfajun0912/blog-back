@@ -4,6 +4,13 @@ const { Users, Visitors, Articles, TopicArticles, Tags, Timeline, About, LeaveMe
 
 app.use(require('cors')())  //允许跨域
 app.use(express.json())  //允许处理json数据
+// app.use((req, res, next) => {
+//   res.cookie('name', 'yuan', {
+//     domain: 'http://localhost:3000'
+//   })
+//   next()
+// })
+
 // app.use('/', express.static(__dirname + '/front'))  //前台
 // app.use('/back', express.static(__dirname + '/back'))  //后台
 
